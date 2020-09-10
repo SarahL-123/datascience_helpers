@@ -77,7 +77,7 @@ def find_bad_data(df, cols = [], replace_with = None, checks=[], help_me = False
                 
         # this doesn't count as 'bad' so there is no logical_or
         if "numberformat" in checks or checks == []:
-            row_is_bad = check_numeric_format(df[one_col])
+            check_numeric_format(df[one_col])
             
         # print the column name but only if there's something wrong!:
         if any(row_is_bad) or print_all == True:    
@@ -218,8 +218,7 @@ def check_numeric_format(one_series):
     # check if there are even any digits
     # if your column is just 'cat' 'cat' 'cat'
     # we don't want to say that it's all the same
-    has_digits = [re.match("[0-9]", s) is not None
-                for s in one_series]
+    has_digits = [re.match("[0-9]", str(s)) is not None for s in one_series]
     
     if np.mean(has_digits) <= 0.9:
         return
